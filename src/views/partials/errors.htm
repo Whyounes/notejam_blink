@@ -1,0 +1,16 @@
+{% if session.get('success') or session.get('errors') %}
+    <div class="alert-area">
+        {% if session.get('success') %}
+            <div class="alert alert-success">{{ session.get('success') }}</div>
+        {% endif %}
+        {% if session.get('errors') %}
+            <div class="alert alert-error">
+                {% for error in session.get('errors') %}
+                    <ul class="errorlist">
+                        <li>{{ error }}</li>
+                    </ul>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

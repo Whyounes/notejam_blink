@@ -1,0 +1,18 @@
+{% extends 'layouts/layout.htm' %}
+
+{% block page_title %}Account Settings{% endblock %}
+
+{% block content %}
+    <form action="/settings" method="POST" class="offset-by-six">
+        <label for="old_password">Old Password</label>
+        <input type="password" value="" name="old_password" id="old_password" />
+
+        <label for="password">Password</label>
+        <input type="password" value="" name="password" id="password" />
+
+        <label for="password_confirmation">Password Confirmation</label>
+        <input type="password" value="" name="password_confirmation" id="password_confirmation" />
+
+        <input type="submit" value="Update" />
+    </form>
+{% endblock %}

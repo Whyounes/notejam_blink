@@ -1,0 +1,18 @@
+{% extends 'layouts/layout.htm' %}
+
+{% block page_title %}Sign Up{% endblock %}
+
+{% block content %}
+    <form action="/signup" method="POST" class="offset-by-six">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" value="{{ oldInputs.email }}" />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" value="" />
+
+        <label for="password_confirmation">Password Confirmation</label>
+        <input type="password" id="password_confirmation" name="password_confirmation" value="" />
+
+        <input type="submit" value="Sign up" /> or <a href="/signin">Sign in</a>
+    </form>
+{% endblock %}
