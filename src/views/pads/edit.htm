@@ -1,0 +1,14 @@
+{% extends 'layouts/layout.htm' %}
+
+{% block page_title %}{{ pad.name }}{% endblock %}
+
+{% block content %}
+    <form action="/pads/{{ pad.id }}/update" method="POST">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ pad.name }}"/>
+
+        <input type="submit" value="Save" />&nbsp;<a class="red" href="/pads/{{ pad.id }}/delete">Delete pad</a>
+    </form>
+    
+    
+{% endblock %}

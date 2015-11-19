@@ -3,6 +3,12 @@ return [
     'request' => [
         'class' => \blink\http\Request::class,
         'middleware' => [\App\Http\Middleware\AuthMiddleware::class],
+        'sessionKey' => function (\blink\http\Request $request) {
+                $cookie = $request->cookies->get('SESSIONID');
+                if ($cookie) {
+                    return $cookie->value;
+                }
+        },
     ],
     'response' => [
         'class' => \blink\http\Response::class,

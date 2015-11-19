@@ -10,4 +10,11 @@ return [
 
     ['GET', '/settings', '\\App\\Http\\Controllers\\UserController@settings'],
     ['POST', '/settings', '\\App\\Http\\Controllers\\UserController@updateSettings'],
+
+    ['GET', '/pads/{id:\d+}', '\\App\\Http\\Controllers\\PadController@show'],
+
+    ['GET', '/pads/{id:\d+}/update', '\\App\\Http\\Controllers\\PadController@edit'],
+    ['POST', '/pads/{id:\d+}/update', '\\App\\Http\\Controllers\\PadController@update'],
+
+    ['GET', '/pads/{id:\d+}/delete', '\\App\\Http\\Controllers\\PadController@delete'],
 ];

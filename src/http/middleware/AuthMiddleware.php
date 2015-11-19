@@ -14,10 +14,15 @@ class AuthMiddleWare implements MiddlewareContract
             '/logout',
             '/notes'
         ];
-        
+
         if(in_array($request->path, $guardedRoutes) && !$request->user())
         {
             return response()->redirect('/signin');
+        }
+
+        if(in_array($request->path, ['/signin', '/signup']) && $request->user())
+        {
+            return response()->redirect('/settings');
         }
     }
 }
