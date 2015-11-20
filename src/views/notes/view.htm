@@ -1,0 +1,14 @@
+{% extends 'layouts/layout.htm' %}
+
+{% block page_title %}{{ note.name }}{% endblock %}
+
+{% block content %}
+    <p class="hidden-text">Last edited at {{ note.updated_at|date("F jS \\a\\t g:ia") }}</p>
+    <div class="note">
+        <p>
+            {{ note.text }}
+        </p>
+    </div>
+    <a href="/notes/{{ note.id }}/update" class="button">Edit</a>
+    <a href="/notes/{{ note.id }}/delete" class="delete-note">Delete it</a>
+{% endblock %}

@@ -1,3 +1,5 @@
+{% set session = app.get('request').session %}
+
 {% if session.get('success') or session.get('errors') %}
     <div class="alert-area">
         {% if session.get('success') %}

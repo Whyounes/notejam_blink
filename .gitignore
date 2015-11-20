@@ -3,3 +3,5 @@
 vendor/
 runtime/
 composer.lock
+cache/
+src/database/blink.sqlite

@@ -31,8 +31,9 @@
     <div class="container">
         <div class="sixteen columns">
             <div class="sign-in-out-block">
+                {% set user = app.get('request').user() %}
                 {% if user %}
-                    email:&nbsp; <a href="/settings">Account Settings</a> &nbsp;&nbsp;&nbsp;<a href="/signout">Sign out</a>
+                    email:&nbsp; {{ user.email }} &nbsp;<a href="/settings">Account Settings</a> &nbsp;&nbsp;&nbsp;<a href="/logout">Sign out</a>
                 {% else %}
                     <a href="/signup">Sign up</a>&nbsp;&nbsp;&nbsp;<a href="/signin">Sign in</a>
                 {% endif %}

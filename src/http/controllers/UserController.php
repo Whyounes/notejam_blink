@@ -11,23 +11,17 @@ class UserController extends Object
 {
     public function signin()
     {
-        return app()->twig->render('user/signin.htm', [
-            'session'       => session()
-        ]);
+        return app()->twig->render('user/signin.htm');
     }
 
     public function signup()
     {
-        return app()->twig->render('user/signup.htm', [
-            'session'       => session()
-        ]);
+        return app()->twig->render('user/signup.htm');
     }
 
     public function settings(Request $request)
     {
-        return app()->twig->render('user/settings.htm', [
-            'session'       => session()
-        ]);
+        return app()->twig->render('user/settings.htm');
     }
 
     public function store(Request $request, Response $response, Hash $hash)
@@ -40,12 +34,11 @@ class UserController extends Object
         $validator = app('validation')->make($request->all(), $rules);
         if ( $validator->fails() )
         {
-            $session = session()->put([
+            $request->session->add([
                 'errors' => $validator->errors()->all(),
             ]);
             
             return app('twig')->render('user/signup.htm', [
-                'session'       => $session,
                 'oldInputs'     => $request->all()
             ]);
         }
@@ -55,7 +48,7 @@ class UserController extends Object
         $user->password = $hash->make($request->body->get('password'));
         $user->save();
         
-        $session = session()->put(['success' => "Welcome to Notejam, you can now log in."]);
+        $request->session->add(['success' => "Welcome to Notejam, you can now log in."]);
 
         return $response->redirect('/signin');
     }
@@ -69,12 +62,11 @@ class UserController extends Object
         $validator = app('validation')->make($request->all(), $rules);
         if ( $validator->fails() )
         {
-            $session = session()->put([
+            $request->session->add([
                 'errors' => $validator->errors()->all(),
             ]);
 
             return app('twig')->render('user/signin.htm', [
-                'session'       => $session,
                 'oldInputs'     => $request->all()
             ]);
         }
@@ -83,22 +75,19 @@ class UserController extends Object
 
         if ( !$user )
         {
-            $session = session()->put([
+            $request->session->add([
                 'errors' => ['Login error.'],
             ]);
 
             return app('twig')->render('user/signin.htm', [
-                'session'       => $session,
                 'oldInputs'     => $request->all()
             ]);
         }
-        $cookies = $request->getCookies();
-        $cookies->add( new \blink\http\Cookie([
-            'name' => 'SESSIONID', 
-            'value' => $request->getSession()->id
-        ]) );
         
-        $request->setCookies($cookies);
+        $cookies = $response->getCookies()->add( new \blink\http\Cookie([
+            'name' => 'SESSIONID', 
+            'value' => $request->session->id
+        ]) );
 
         return $response->redirect('/settings');
     }
@@ -114,24 +103,22 @@ class UserController extends Object
         $validator = app('validation')->make($request->all(), $rules);
         if ( $validator->fails() )
         {
-            $session = session()->put([
+            $request->session->add([
                 'errors' => $validator->errors()->all(),
             ]);
 
             return app('twig')->render('user/settings.htm', [
-                'session'       => $session,
                 'oldInputs'     => $request->all()
             ]);
         }
 
         if( !$hash->check($request->input('old_password'), $user->password) )
         {
-            $session = session()->put([
+            $request->session->add([
                 'errors' => ['Old password incorrect.'],
             ]);
 
             return app('twig')->render('user/settings.htm', [
-                'session'       => $session,
                 'oldInputs'     => $request->all()
             ]);
         }
@@ -139,19 +126,16 @@ class UserController extends Object
         $user->password = $hash->make($request->input('old_password'));
         $user->save();
 
-        $session = session()->put([
+        $request->session->add([
                 'success' => 'settings updated successfuly.',
         ]);
 
-        return app('twig')->render('user/settings.htm', [
-            'session'       => $session
-        ]);
+        return app('twig')->render('user/settings.htm');
     }
 
     public function logout(Request $request, Response $response)
     {
-        $session = $request->getSession();
-        auth()->logout($session->id);
+        auth()->logout($request->session->id);
 
         return $response->redirect('/signin');
     }

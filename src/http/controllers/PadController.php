@@ -10,9 +10,33 @@ use \App\Models\Pad;
 class PadController extends Object
 {
 
-    public function show($id, Pad $padModel)
+    protected function padExists($padId)
     {
-        $pad = $padModel->with('notes')->findOrFail($id); // test with a validation
+        $request = request();
+        $pad = Pad::with('notes')
+                    ->where('user_id', $request->user()->id)
+                    ->where('id', $padId)
+                    ->first();
+
+        if( !$pad )
+        {
+            $request->session->add([
+                'errors'    => ["Pad not found."]
+            ]);
+
+            return false;
+        }
+
+        return $pad;
+    }
+
+    public function show($id, Request $request, Response $response, Pad $padModel)
+    {
+        $pad = $this->padExists($id);
+        if( !$pad )
+        {
+            return $response->redirect('/pads');
+        }
 
         return app()->twig->render('pads/view.htm', [
             'pad' => $pad
@@ -21,16 +45,39 @@ class PadController extends Object
 
     public function edit($id, Pad $padModel)
     {
-        $pad = $padModel->findOrFail($id); // test with a validation
+        $pad = $this->padExists($id);
+        if( !$pad )
+        {
+            return $response->redirect('/pads');
+        }
 
         return app()->twig->render('pads/edit.htm', [
             'pad' => $pad
         ]);
     }
 
+    public function create()
+    {
+        return app('twig')->render('pads/create.htm');
+    }
+
+    public function index(Request $request, Pad $padModel)
+    {
+        $pads = $padModel->where('user_id', $request->user()->id)->get();
+
+        return app('twig')->render('pads/index.htm', [
+            'pads' => $pads
+        ]);
+    }
+
     public function update($id, Request $request, Pad $padModel)
     {
-        $pad = $padModel->findOrFail($id); // test with a validation
+        $pad = $this->padExists($id);
+        if( !$pad )
+        {
+            return $response->redirect('/pads');
+        }
+
         $rules = [
             'name'     => 'required'
         ];
@@ -38,12 +85,11 @@ class PadController extends Object
         $validator = app('validation')->make($request->all(), $rules);
         if ( $validator->fails() )
         {
-            $session = session()->put([
+            $request->session->add([
                 'errors' => $validator->errors()->all(),
             ]);
             
             return app('twig')->render('pads/edit.htm', [
-                'session'   => $session,
                 'pad'       => $pad
             ]);
         }
@@ -51,42 +97,57 @@ class PadController extends Object
         $pad->name = $request->input('name');
         $pad->save();
 
-        $session = session()->put([
+        $request->session->add([
                 'success' => 'Pad updated successfuly.',
         ]);
 
         return app('twig')->render('pads/edit.htm', [
-            'session'   => $session,
             'pad'       => $pad
         ]);
     }
 
+    public function store(Request $request, Response $response)
+    {
+        $rules = [
+            'name' => 'required'
+        ];
+        $validator = app('validation')->make($request->all(), $rules);
+        if ( $validator->fails() )
+        {
+            $request->session->add([
+                'errors' => $validator->errors()->all(),
+            ]);
+            
+            return app('twig')->render('pads/create.htm');
+        }
+
+        $pad = new Pad;
+        $pad->name = $request->input('name');
+        $pad->user_id = $request->user()->id;
+        $pad->save();
+
+        $request->session->add([
+                'success' => 'Pad saved successfuly.',
+        ]);
+
+        return $response->redirect("/pads/{$pad->id}/update");
+    }
 
     public function delete($id, Request $request, Pad $padModel)
     {
-        $pad = $padModel->findOrFail($id);
-        $user = $request->user();
-
-        if( $pad->user->id !== $user->id )
+        $pad = $this->padExists($id);
+        if( !$pad )
         {
-            $session = session()->put([
-                'errors' => ["You are not the owner of this pad."],
-            ]);
-            
-            return app('twig')->render('pads/edit.htm', [
-                'session'   => $session,
-                'pad'       => $pad
-            ]);
+            return $response->redirect('/pads');
         }
 
         $pad->delete();
 
-        $session = session()->put([
+        $request->session->add([
                 'success' => 'Pad deleted successfuly.',
         ]);
 
         return app('twig')->render('pads/index.htm', [
-            'session'   => $session,
             'pads'       => $padModel->all()
         ]);
     }

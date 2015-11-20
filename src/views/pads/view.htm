@@ -6,13 +6,13 @@
     {% if pad.notes|length > 0 %}
         <table class="notes">
             <tr>
-                <th class="note">Note <a href="/pads/{{ pad.id }}?order=-name" class="sort_arrow" >&uarr;</a><a href="/pads/{{ pad.id }}?order=name" class="sort_arrow" >&darr;</a></th>
-                <th class="date">Last modified <a href="/pads/{{ pad.id }}?order=-updated_at" class="sort_arrow" >&uarr;</a><a href="/pads/{{ pad.id }}?order=updated_at" class="sort_arrow" >&darr;</a></th>
+                <th class="note">Note</th>
+                <th class="date">Last modified</th>
             </tr>
             {% for note in pad.notes %}
                 <tr>
                     <td><a href="/notes/{{ note.id }}">{{ note.name }}</a></td>
-                    <td class="hidden-text date">{{ note.created_at|date("F jS \\a\\t g:ia") }}</td>
+                    <td class="hidden-text date">{{ note.updated_at|date("F jS \\a\\t g:ia") }}</td>
                 </tr>
             {% endfor %}
         </table>

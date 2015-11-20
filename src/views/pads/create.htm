@@ -1,0 +1,12 @@
+{% extends 'layouts/layout.htm' %}
+
+{% block page_title %}New Pad{% endblock %}
+
+{% block content %}
+    <form action="/pads/create" method="POST">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ pad.name }}"/>
+
+        <input type="submit" value="Save" />
+    </form>
+{% endblock %}

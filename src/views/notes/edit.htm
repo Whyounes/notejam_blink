@@ -1,0 +1,22 @@
+{% extends 'layouts/layout.htm' %}
+
+{% block page_title %}{{ note.name }}{% endblock %}
+
+{% block content %}
+    <form action="/notes/{{ note.id }}/update" method="POST">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ note.name }}"/>
+        
+        <label for="text">Text</label>
+        <textarea id="text" name="text">{{ note.text }}</textarea>
+
+        <label for="pad">Pad</label>
+        <select id="pad" name="pad">
+            {% for pad in pads %}
+                <option value="{{ pad.id }}" {% if note.pad.id == pad.id %}selected{% endif %}>{{ pad.name }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Update" />
+    </form>
+{% endblock %}

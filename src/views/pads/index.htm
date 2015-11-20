@@ -1,0 +1,26 @@
+{% extends 'layouts/layout.htm' %}
+
+{% block page_title %}My Pads{% endblock %}
+
+{% block content %}
+        {% if pads.count %}
+        <table class="pads">
+            <tr>
+                <th class="note">Pad</th>
+                <th class="date">Last modified</th>
+            </tr>
+            {% for pad in pads %}
+                <tr>
+                    <td><a href="/pads/{{ pad.id }}/update">{{ pad.name }}</a></td>
+                    <td class="">
+                        {{ pad.updated_at|date("F jS \\a\\t g:ia") }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p class="empty">No pads</p>
+        {% endif %}
+      <hr />
+      <a href="/pads/create" class="button">New pad</a>
+{% endblock %}

@@ -8,7 +8,7 @@ return [
                 if ($cookie) {
                     return $cookie->value;
                 }
-        },
+        }
     ],
     'response' => [
         'class' => \blink\http\Response::class,

@@ -1,24 +1,29 @@
-blink-seed - A seed application for Blink framework
-===================================================
+Notejam: Blink framework
+========================
 
-[![Latest Stable Version](https://poser.pugx.org/blink/seed/v/stable)](https://packagist.org/packages/blink/seed) 
-[![Total Downloads](https://poser.pugx.org/blink/seed/downloads)](https://packagist.org/packages/blink/seed) 
-[![Latest Unstable Version](https://poser.pugx.org/blink/seed/v/unstable)](https://packagist.org/packages/blink/seed) 
+Notejam demo application using Blink framework
 
-Introduction
+Installation
 ------------
 
-This is a seed application that makes the creation of Blink applications much more simplified.
+- Clone the repository to you machine.
+- Run `vagrant up` to create the VM.
+- SSH to do VM.
+- Install Swoole extension. Check this [article](http://sitepoint.com).
+- Go to the application directory. (`cd /vagrant/blink/`)
+- Run `composer update`.
+- Create the database file. `touch src/database/blink.sqlite`
+- Run migrations. `php blink migrate`
+- Run the server. `php blink server serve`
+- Open app on your browser. `http://yourhost.local:8080`
 
-With the help of [Composer](https://getcomposer.org), you can create a new Blink application through one simple command:
+Contribution
+------------
 
-```bash
-composer create-project --prefer-dist blink/seed your-app
+Please send your pull requests in the master branch. Always prepend your commits with framework name:
+
+```
+Blink: Implemented sign in functionality
 ```
 
-For more information, please visit our main  development repo [here](https://github.com/bixuehujin/blink).
-
-License
--------
-
-This is a open sourced software under MIT license.
+Read [contribution](https://github.com/komarserjio/notejam/blob/master/contribute.rst) guide for details.

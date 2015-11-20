@@ -13,8 +13,8 @@ $app->bind('twig.loader', function () {
 
 $app->bind('twig', function () use($app) {
     $options = [
-        'debug' => false,
-        'cache' => __DIR__.'/views/compiled'
+        'debug' => true,
+        'cache' => __DIR__.'/../cache/views/compiled'
     ];
 
     $twig = new \Twig_Environment($app->get('twig.loader'), $options);
@@ -24,6 +24,7 @@ $app->bind('twig', function () use($app) {
 
     // register Twig globals
     $twig->addGlobal('app', $app);
+    $twig->addGlobal('session', session());
 
     return $twig;
 });

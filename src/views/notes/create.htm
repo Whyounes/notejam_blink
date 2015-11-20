@@ -1,0 +1,22 @@
+{% extends 'layouts/layout.htm' %}
+
+{% block page_title %}New Note{% endblock %}
+
+{% block content %}
+    <form action="/notes/create" method="POST">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ oldInputs.name }}"/>
+        
+        <label for="text">Text</label>
+        <textarea id="text" name="text" value="{{ oldInputs.text }}"></textarea>
+
+        <label for="pad">Pad</label>
+        <select id="pad" name="pad">
+            {% for pad in pads %}
+                <option value="{{ pad.id }}">{{ pad.name }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Create" />
+    </form>
+{% endblock %}
