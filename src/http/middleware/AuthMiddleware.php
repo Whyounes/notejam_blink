@@ -10,17 +10,24 @@ class AuthMiddleWare implements MiddlewareContract
     public function handle($request)
     {
         $guardedRoutes = [
-            '/settings',
-            '/logout',
-            '/notes'
+            '/\/settings/',
+            '/\/logout/',
+            '/\/notes?\/*.*/',
+            '/\/pads?\/*.*/',
         ];
 
-        if(in_array($request->path, $guardedRoutes) && !$request->user())
+        if ( !$request->user() )
         {
-            return response()->redirect('/signin');
+            foreach ($guardedRoutes as $route)
+            {
+                if ( $request->match($route) )
+                {
+                    return response()->redirect('/signin');
+                }
+            }
         }
 
-        if(in_array($request->path, ['/signin', '/signup']) && $request->user())
+        if ( $request->user() && in_array($request->path, ['/signin', '/signup']))
         {
             return response()->redirect('/settings');
         }

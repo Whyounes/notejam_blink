@@ -24,7 +24,6 @@ $app->bind('twig', function () use($app) {
 
     // register Twig globals
     $twig->addGlobal('app', $app);
-    $twig->addGlobal('session', session());
 
     return $twig;
 });

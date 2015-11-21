@@ -78,7 +78,7 @@ return [
      *
      */
 
-    'controllerNamespace' => '\app\http\controllers',
+    'controllerNamespace' => '\App\Http\Controllers',
 
     'commands' => [
         'App\Console\MigrateCommand',
