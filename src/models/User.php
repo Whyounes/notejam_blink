@@ -1,8 +1,9 @@
 <?php
-namespace App\Models;
+namespace app\models;
 
 use blink\auth\Authenticatable;
 use blink\core\Object;
+use blink\core\InvalidParamException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Hashing\BcryptHasher as Hash;
 
@@ -17,7 +18,7 @@ class User extends Model implements Authenticatable
         } else if (is_string($id) || (is_array($id) && isset($id['email'])) ) {
             return static::where('email', $id)->first();
         } else {
-            throw new \InvalidParamException("The param: id is invalid.");
+            throw new InvalidParamException("The param: id is invalid.");
         }
     }
 

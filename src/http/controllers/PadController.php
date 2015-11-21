@@ -1,11 +1,11 @@
 <?php 
-namespace App\Http\Controllers;
+namespace app\http\controllers;
 
 use blink\core\Object;
 use blink\http\Request;
 use blink\http\Response;
 use Illuminate\Validation\Factory as Validator;
-use \App\Models\Pad;
+use app\models\Pad;
 
 class PadController extends Object
 {
