@@ -2,12 +2,18 @@
 return [
     'request' => [
         'class' => \blink\http\Request::class,
-        'middleware' => [\App\Http\Middleware\AuthMiddleware::class],
+        'middleware' => [\app\http\middleware\AuthMiddleware::class],
         'sessionKey' => function (\blink\http\Request $request) {
-                $cookie = $request->cookies->get('SESSIONID');
-                if ($cookie) {
-                    return $cookie->value;
-                }
+            $cookie = $request->cookies->get('SESSIONID');
+            if ($cookie) {
+                return $cookie->value;
+            }
+            $session = session()->put([]);
+            response()->cookies->add(new \blink\http\Cookie([
+                'name' => 'SESSIONID',
+                'value' => $session->id,
+            ]));
+            return $session->id;
         }
     ],
     'response' => [
@@ -24,7 +30,7 @@ return [
     ],
     'auth' => [
         'class' => 'blink\auth\Auth',
-        'model' => 'App\Models\User',
+        'model' => app\models\User::class,
     ],
     'log' => [
         'class' => 'blink\log\Logger',
