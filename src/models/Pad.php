@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace app\models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,11 +9,11 @@ class Pad extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('app\models\User');
     }
     
     public function notes()
     {
-        return $this->hasMany('App\Models\Note');
+        return $this->hasMany('app\models\Note');
     }
 }

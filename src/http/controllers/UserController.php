@@ -1,5 +1,5 @@
 <?php 
-namespace App\Http\Controllers;
+namespace app\http\controllers;
 
 use blink\core\Object;
 use blink\http\Request;
@@ -43,7 +43,7 @@ class UserController extends Object
             ]);
         }
 
-        $user = new \App\Models\User;
+        $user = new \app\models\User;
         $user->email = $request->body->get('email');
         $user->password = $hash->make($request->body->get('password'));
         $user->save();

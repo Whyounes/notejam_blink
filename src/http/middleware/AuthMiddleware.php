@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Middleware;
+namespace app\http\middleware;
 
 use blink\core\MiddlewareContract;
 use blink\http\Request;

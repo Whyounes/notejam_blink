@@ -1,5 +1,5 @@
 <?php
-namespace App\Console;
+namespace app\console;
 
 use \blink\core\console\Command;
 use \Illuminate\Database\Migrations\DatabaseMigrationRepository;
